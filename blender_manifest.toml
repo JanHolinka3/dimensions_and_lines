@@ -1,0 +1,21 @@
+blender_version_min = "4.2.0"
+
+id = "dimensions_and_lines"
+
+license = ["SPDX:GPL-3.0-or-later",]
+
+maintainer = "Jan Holinka <jan.holinka@seznam.cz>"
+
+name = "Dimensions and Lines"
+
+schema_version = "1.0.0"
+
+tagline = "create technical drawings, dimensions and lines"
+
+type = "add-on"
+
+version = "1.0.7"
+
+website = "https://derivator3.gumroad.com/l/dimlin"
+
+tags = ["Modeling", "3D View", "Mesh"]
