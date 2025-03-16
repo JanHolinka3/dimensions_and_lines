@@ -11,6 +11,7 @@ a copy of the GNU General Public License along with this program; if not, see <h
 
 #version: 1.0.7
 
+from . import test
 import bpy
 import bmesh
 import math
@@ -271,7 +272,7 @@ class CAMERA_DIMSELECT(bpy.types.Operator):
             selectedObject = object
 
         if countObjektu == 0:
-            self.report({'ERROR'}, "No object selected")
+            self.report({'ERROR'}, "No object selected.")
             return {'CANCELLED'}
         
         if countObjektu > 1:

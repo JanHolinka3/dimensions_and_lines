@@ -9,6 +9,12 @@ FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more de
 a copy of the GNU General Public License along with this program; if not, see <https://www.gnu.org/licenses>.
 '''
 
+import importlib
+
+if "dimension_addon_by_der" in locals():
+    importlib.reload(dimension_addon_by_der)
+else:
+    from . import dimension_addon_by_der
 
 #if "bpy" in locals():
     #import imp
@@ -20,7 +26,7 @@ a copy of the GNU General Public License along with this program; if not, see <h
 
 import bpy
 
-from . import dimension_addon_by_der
+#from . import dimension_addon_by_der
 
 def register():
     dimension_addon_by_der.register()
