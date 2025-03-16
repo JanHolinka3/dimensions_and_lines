@@ -10,15 +10,17 @@ a copy of the GNU General Public License along with this program; if not, see <h
 '''
 
 
-if "bpy" in locals():
-    import imp
-    imp.reload(dimension_addon_by_der)
-else:
-    from . import (
-        dimension_addon_by_der,
-    )
+#if "bpy" in locals():
+    #import imp
+    #imp.reload(dimension_addon_by_der)
+#else:
+    #from . import (
+        #dimension_addon_by_der,
+    #)
 
 import bpy
+
+from . import dimension_addon_by_der
 
 def register():
     dimension_addon_by_der.register()
