@@ -14,22 +14,15 @@ a copy of the GNU General Public License along with this program; if not, see <h
 from . import cameras_setup
 from . import hatches_operator
 from . import lines_operators
-import bpy
-import bmesh
-import math
-import mathutils
-#import numpy
-#import bpy_extras
-import bpy_extras.view3d_utils
-#import threading
-#import multiprocessing
-#import random
-import gpu
-import blf
-#import queue
+import bpy # type: ignore
+import bmesh # type: ignore
+import math # type: ignore
+import mathutils # type: ignore
+import bpy_extras.view3d_utils # type: ignore
+import gpu # type: ignore
+import blf # type: ignore
 from timeit import default_timer as timer
-from gpu_extras.batch import batch_for_shader
-#import subprocess
+from gpu_extras.batch import batch_for_shader # type: ignore
 
 class VIEW3D_PT_dimensions(bpy.types.Panel):
     bl_space_type = 'VIEW_3D'
