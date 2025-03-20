@@ -14,6 +14,7 @@ a copy of the GNU General Public License along with this program; if not, see <h
 from . import cameras_setup
 from . import hatches_operator
 from . import lines_operators
+from . import dim_two_vert_op
 import bpy # type: ignore
 import bmesh # type: ignore
 import math # type: ignore
@@ -130,6 +131,7 @@ class VIEW3D_PT_dimensions(bpy.types.Panel):
         #for 1:100 is then width in Blender units 2mm * 100 = 200mm = 20cm = 2dm = 0.2m atc. 
         #for 1:10 is then width in Blender units 2mm * 10 = 20mm = 2cm = 0.2dm = 0.02m atc.
 
+'''
 class MESH_OT_dimension_two_vert(bpy.types.Operator):
     """Add dimensions from two selected vertices."""
     bl_idname = "mesh.dimensiontwovert"
@@ -2473,7 +2475,7 @@ class MESH_OT_dimension_two_vert(bpy.types.Operator):
 
         objectTextu.select_set(False)
         objectKoty.select_set(False)
-        #'''
+        #
         context.scene.cursor.location = zalohaCursoru
 
         return
@@ -2798,6 +2800,7 @@ class MESH_OT_dimension_two_vert(bpy.types.Operator):
         links = material.node_tree.links
         links.new(emissionNode.outputs[0],nodes['Material Output'].inputs[0])
         object.data.materials.append(material)
+'''
 
 class SFA_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
     """Realtime dimensions."""
@@ -4834,7 +4837,7 @@ class binTree(): #prvni prvek | eventuelne dopsat delete | stredy maji zaporne i
 blender_classes = [VIEW3D_PT_dimensions,
                 lines_operators.MESH_OT_lines,
                 lines_operators.MESH_OT_lines_clear,
-                MESH_OT_dimension_two_vert,
+                dim_two_vert_op.MESH_OT_dimension_two_vert,
                 SFA_OT_realtime_dimension,
                 DIMENSION_GLOBALS,
                 cameras_setup.CAMERA_DIMSELECT,

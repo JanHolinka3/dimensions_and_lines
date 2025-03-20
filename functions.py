@@ -226,6 +226,7 @@ def vzdalenostNejOsa(vektorSmer: list[float], vzdalenost: float) -> float:
     return biggestAbs * vysledek
     
 def vzdalenostMeziDvemaBody(bod1: list[float], bod2: list[float]) -> float:
+
     del1 = bod1[0] - bod2[0]
     del2 = bod1[1] - bod2[1]
     del3 = bod1[2] - bod2[2]
@@ -233,3 +234,10 @@ def vzdalenostMeziDvemaBody(bod1: list[float], bod2: list[float]) -> float:
     vysledek = math.sqrt(vysledekSq)
 
     return vysledek
+
+def vratBodMeziDvemaBody(bod1: list[float], bod2: list[float]) -> list[float]:
+        vysledek = [0.0,0.0,0.0]
+        vysledek[0] = (bod1[0] + bod2[0])/2
+        vysledek[1] = (bod1[1] + bod2[1])/2
+        vysledek[2] = (bod1[2] + bod2[2])/2
+        return vysledek
