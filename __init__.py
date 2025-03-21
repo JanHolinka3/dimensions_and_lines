@@ -11,22 +11,14 @@ a copy of the GNU General Public License along with this program; if not, see <h
 
 import importlib
 
-if "dimension_addon_by_der" in locals():
-    importlib.reload(dimension_addon_by_der)
-else:
-    from . import dimension_addon_by_der
-
-#if "bpy" in locals():
-    #import imp
-    #imp.reload(dimension_addon_by_der)
+#if "dimension_addon_by_der" in locals():
+    #importlib.reload(dimension_addon_by_der)
 #else:
-    #from . import (
-        #dimension_addon_by_der,
-    #)
+    #from . import dimension_addon_by_der
 
-import bpy
+import bpy # type: ignore
 
-#from . import dimension_addon_by_der
+from . import dimension_addon_by_der
 
 def register():
     dimension_addon_by_der.register()

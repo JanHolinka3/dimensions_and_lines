@@ -4,7 +4,7 @@ import math
 import mathutils #type: ignore
 from . import functions
 
-def vytvorKotuSlope() -> bpy.types.Object:
+def vytvorKotuSlope(self) -> bpy.types.Object:
 
         context = bpy.context
 
@@ -19,14 +19,14 @@ def vytvorKotuSlope() -> bpy.types.Object:
         #prihodime text
         bpy.ops.object.text_add()
         objectTextu = context.active_object
-        #self.ObjektTextu = objectTextu
+        self.ObjektTextu = objectTextu
         objectTextu.data.font = bpy.data.fonts[context.scene.DIMENSION.fontsArray]
 
         #bpy.ops.mesh.primitive_vert_add()
         bpy.ops.mesh.primitive_plane_add()
 
         objectKoty = context.active_object
-        #self.ObjektKoty = objectKoty
+        self.ObjektKoty = objectKoty
         objNameBase = 'dimension.'
         objName = 'dimension'
         counter = 1
@@ -164,7 +164,7 @@ def osadKotuSlope(self, listKotaText, listVeci):
             objectKoty.location[porad] = stredKoty[porad]
         
         #nastavime rotaci koty podle vektoru
-        self.rotaceDvaBody(objectKoty, kotaBaseVert1, kotaBaseVert2)
+        functions.rotaceDvaBody(objectKoty, kotaBaseVert1, kotaBaseVert2)
 
         #prepocitame vychozi body z world na local posunute a natocene koty
         kotaBaseVert1WorldBackUp = kotaBaseVert1
@@ -179,12 +179,12 @@ def osadKotuSlope(self, listKotaText, listVeci):
 
         #prvni body koty - vpravo
         #kotaBaseVert1 = self.odsad(kotaBaseVert1, vektorSmer, 2, self.odsazeniHlavni)
-        kotaBaseVert1 = self.pripoctiY(kotaBaseVert1, self.odsazeniHlavni) #Y je jakoby KOLMO
+        kotaBaseVert1 = functions.pripoctiY(kotaBaseVert1, self.odsazeniHlavni) #Y je jakoby KOLMO
         objectMesh.vertices[pocetVert].co = kotaBaseVert1
         kotaBaseVert1Poradi = pocetVert
 
         #kotaBaseVert2 = self.odsad(kotaBaseVert2, vektorSmer, 2, self.odsazeniHlavni)
-        kotaBaseVert2 = self.pripoctiY(kotaBaseVert2, self.odsazeniHlavni)
+        kotaBaseVert2 = functions.pripoctiY(kotaBaseVert2, self.odsazeniHlavni)
         pocetVert += 1
         objectMesh.vertices[pocetVert].co = kotaBaseVert2
         kotaBaseVert2Poradi = pocetVert
@@ -192,210 +192,210 @@ def osadKotuSlope(self, listKotaText, listVeci):
         #body prodlouzeni
         pocetVert += 1
         #kotaBaseVert1prodl = self.pripoctiNejOsa(kotaBaseVert1, vektorSmer, -self.protazeni)  
-        kotaBaseVert1prodl = self.pripoctiX(kotaBaseVert1, self.protazeni)
+        kotaBaseVert1prodl = functions.pripoctiX(kotaBaseVert1, self.protazeni)
         objectMesh.vertices[pocetVert].co = kotaBaseVert1prodl
 
         pocetVert += 1
         #kotaBaseVert2prodl = self.pripoctiNejOsa(kotaBaseVert2, vektorSmer, self.protazeni)  
-        kotaBaseVert2prodl = self.pripoctiX(kotaBaseVert2, -self.protazeni)
+        kotaBaseVert2prodl = functions.pripoctiX(kotaBaseVert2, -self.protazeni)
         objectMesh.vertices[pocetVert].co = kotaBaseVert2prodl
 
         #pridam body vlevo a vpravo dle poloviny tloustka 4 + 4 a 4 + 4
         #4 kolem hlavni vpravo
         pocetVert += 1
-        #bodSirky1 = self.pripoctiNejOsa(objectMesh.vertices[kotaBaseVert1Poradi].co, vektorSmer, self.tloustka/2)  
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[kotaBaseVert1Poradi].co, -self.tloustka/2)
+        #bodSirky1 = functions.pripoctiNejOsa(objectMesh.vertices[kotaBaseVert1Poradi].co, vektorSmer, self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[kotaBaseVert1Poradi].co, -self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
-        #bodSirky1 = self.odsad(objectMesh.vertices[pocetVert].co, vektorSmer, 2, self.tloustka/2)
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
-        objectMesh.vertices[pocetVert].co = bodSirky1
-        pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[kotaBaseVert1Poradi].co, self.tloustka/2)  
-        objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
+        #bodSirky1 = functions.odsad(objectMesh.vertices[pocetVert].co, vektorSmer, 2, self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[kotaBaseVert1Poradi].co, -self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[kotaBaseVert1Poradi].co, self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[kotaBaseVert1Poradi].co, self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[kotaBaseVert1Poradi].co, -self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
+        objectMesh.vertices[pocetVert].co = bodSirky1
+        pocetVert += 1
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[kotaBaseVert1Poradi].co, self.tloustka/2)  
+        objectMesh.vertices[pocetVert].co = bodSirky1
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         #4 kolem hlavni vlevo
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[kotaBaseVert2Poradi].co, -self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[kotaBaseVert2Poradi].co, -self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
-        objectMesh.vertices[pocetVert].co = bodSirky1
-        pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[kotaBaseVert2Poradi].co, self.tloustka/2)  
-        objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[kotaBaseVert2Poradi].co, -self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[kotaBaseVert2Poradi].co, self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[kotaBaseVert2Poradi].co, self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[kotaBaseVert2Poradi].co, -self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
+        objectMesh.vertices[pocetVert].co = bodSirky1
+        pocetVert += 1
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[kotaBaseVert2Poradi].co, self.tloustka/2)  
+        objectMesh.vertices[pocetVert].co = bodSirky1
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         #protazeni v hlavnim smeru vlevo a pak vpravo
         pocetVert += 1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[3].co, self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[3].co, self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[3].co, -self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[3].co, -self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[2].co, self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[2].co, self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiY(objectMesh.vertices[2].co, -self.tloustka/2)
+        bodSirky1 = functions.pripoctiY(objectMesh.vertices[2].co, -self.tloustka/2)
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #spodni vpravo - stred,vlevo,vpravo
         pocetVert += 1
-        kotaKolmiceSpodek1 = self.pripoctiY(kotaBaseVert1Original, self.odsazeniZakladna)
+        kotaKolmiceSpodek1 = functions.pripoctiY(kotaBaseVert1Original, self.odsazeniZakladna)
         objectMesh.vertices[pocetVert].co = kotaKolmiceSpodek1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
         #spodni vlevo - stred,vlevo,vpravo
         pocetVert += 1
-        kotaKolmiceSpodek2 = self.pripoctiY(kotaBaseVert2Original, self.odsazeniZakladna)
+        kotaKolmiceSpodek2 = functions.pripoctiY(kotaBaseVert2Original, self.odsazeniZakladna)
         objectMesh.vertices[pocetVert].co = kotaKolmiceSpodek2
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
         #horni vpravo - stred,vlevo,vpravo
         pocetVert += 1
-        kotaKolmiceVrsek1 = self.pripoctiY(kotaBaseVert1, self.presahKolmice)
+        kotaKolmiceVrsek1 = functions.pripoctiY(kotaBaseVert1, self.presahKolmice)
         objectMesh.vertices[pocetVert].co = kotaKolmiceVrsek1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
         #horni vlevo - stred,vlevo,vpravo
         pocetVert += 1
-        kotaKolmiceVrsek2 = self.pripoctiY(kotaBaseVert2, self.presahKolmice)
+        kotaKolmiceVrsek2 = functions.pripoctiY(kotaBaseVert2, self.presahKolmice)
         objectMesh.vertices[pocetVert].co = kotaKolmiceVrsek2
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert += 1
-        bodSirky1 = self.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
+        bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #sikmina vpravo horni stred
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[0].co,math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[0].co,math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1=self.pripoctiX(objectMesh.vertices[pocetVert].co,math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
+        bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
         #sikmina vpravo spodni stred
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[0].co,-math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[0].co,-math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1=self.pripoctiX(objectMesh.vertices[pocetVert].co,-math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
+        bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,-math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #sikmina vpravo horni stred odsazeni
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[pocetVert-2].co,(-self.tloustka/2)*math.sin(45/(180/math.pi)))
-        bodSirky1=self.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(self.tloustka/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[pocetVert-2].co,(-self.tloustka/2)*math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(self.tloustka/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[pocetVert-3].co,(self.tloustka/2)*math.sin(45/(180/math.pi)))
-        bodSirky1=self.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(-self.tloustka/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[pocetVert-3].co,(self.tloustka/2)*math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(-self.tloustka/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #sikmina vpravo spodni stred odsazeni
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[pocetVert-3].co,(-self.tloustka/2)*math.sin(45/(180/math.pi)))
-        bodSirky1=self.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(self.tloustka/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[pocetVert-3].co,(-self.tloustka/2)*math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(self.tloustka/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[pocetVert-4].co,(self.tloustka/2)*math.sin(45/(180/math.pi)))
-        bodSirky1=self.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(-self.tloustka/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[pocetVert-4].co,(self.tloustka/2)*math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(-self.tloustka/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #horni diagonala pro diagonalu - obe
         pocetVert +=1
-        bodSirky1=self.pripoctiX(objectMesh.vertices[5].co,(self.tloustka/2)/math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(objectMesh.vertices[5].co,(self.tloustka/2)/math.sin(45/(180/math.pi)))
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert +=1   
-        bodSirky1=self.pripoctiY(objectMesh.vertices[5].co,(self.tloustka/2)/math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[5].co,(self.tloustka/2)/math.sin(45/(180/math.pi)))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #spodni diagonala pro diagonalu - obe
         pocetVert +=1
-        bodSirky1=self.pripoctiX(objectMesh.vertices[6].co,(-self.tloustka/2)/math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(objectMesh.vertices[6].co,(-self.tloustka/2)/math.sin(45/(180/math.pi)))
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert +=1   
-        bodSirky1=self.pripoctiY(objectMesh.vertices[6].co,(-self.tloustka/2)/math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[6].co,(-self.tloustka/2)/math.sin(45/(180/math.pi)))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #sikmina vlevo horni stred
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[1].co,math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[1].co,math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1=self.pripoctiX(objectMesh.vertices[pocetVert].co,math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
+        bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
         #sikmina vlevo spodni stred
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[1].co,-math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[1].co,-math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
-        bodSirky1=self.pripoctiX(objectMesh.vertices[pocetVert].co,-math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
+        bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,-math.sin(45/(180/math.pi))*(self.delkaSikmeCar/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #sikmina vlevo horni stred odsazeni
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[pocetVert-2].co,(-self.tloustka/2)*math.sin(45/(180/math.pi)))
-        bodSirky1=self.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(self.tloustka/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[pocetVert-2].co,(-self.tloustka/2)*math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(self.tloustka/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[pocetVert-3].co,(self.tloustka/2)*math.sin(45/(180/math.pi)))
-        bodSirky1=self.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(-self.tloustka/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[pocetVert-3].co,(self.tloustka/2)*math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(-self.tloustka/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #sikmina vlevo spodni stred odsazeni
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[pocetVert-3].co,(-self.tloustka/2)*math.sin(45/(180/math.pi)))
-        bodSirky1=self.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(self.tloustka/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[pocetVert-3].co,(-self.tloustka/2)*math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(self.tloustka/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert +=1
-        bodSirky1=self.pripoctiY(objectMesh.vertices[pocetVert-4].co,(self.tloustka/2)*math.sin(45/(180/math.pi)))
-        bodSirky1=self.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(-self.tloustka/2))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[pocetVert-4].co,(self.tloustka/2)*math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(bodSirky1,math.sin(45/(180/math.pi))*(-self.tloustka/2))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #horni diagonala pro diagonalu - obe
         pocetVert +=1
-        bodSirky1=self.pripoctiX(objectMesh.vertices[9].co,(self.tloustka/2)/math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(objectMesh.vertices[9].co,(self.tloustka/2)/math.sin(45/(180/math.pi)))
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert +=1   
-        bodSirky1=self.pripoctiY(objectMesh.vertices[9].co,(self.tloustka/2)/math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[9].co,(self.tloustka/2)/math.sin(45/(180/math.pi)))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #spodni diagonala pro diagonalu - obe
         pocetVert +=1
-        bodSirky1=self.pripoctiX(objectMesh.vertices[10].co,(-self.tloustka/2)/math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiX(objectMesh.vertices[10].co,(-self.tloustka/2)/math.sin(45/(180/math.pi)))
         objectMesh.vertices[pocetVert].co = bodSirky1
         pocetVert +=1   
-        bodSirky1=self.pripoctiY(objectMesh.vertices[10].co,(-self.tloustka/2)/math.sin(45/(180/math.pi)))
+        bodSirky1=functions.pripoctiY(objectMesh.vertices[10].co,(-self.tloustka/2)/math.sin(45/(180/math.pi)))
         objectMesh.vertices[pocetVert].co = bodSirky1
 
         #orig snap points
@@ -416,19 +416,19 @@ def osadKotuSlope(self, listKotaText, listVeci):
             objectTextu.location[porad] = stredKotyOdsaz[porad]
             
         #nastavime rotaci koty podle vektoru
-        self.rotaceDvaBody(objectTextu, kotaBaseVert1, kotaBaseVert2)
+        functions.rotaceDvaBody(objectTextu, kotaBaseVert1, kotaBaseVert2)
 
-        KotaNumber = self.vzdalenostMeziDvemaBody(kotaBaseVert1,kotaBaseVert2)
+        KotaNumber = functions.vzdalenostMeziDvemaBody(kotaBaseVert1,kotaBaseVert2)
         KotaNumber = KotaNumber * self.distanceScale
         #tady uz bych to mohl oddelit podle ft in a metric
         if context.scene.DIMENSION.jednotky == 'ft in':
-            textKoty = self.makeImperial(context, KotaNumber)
+            textKoty = functions.makeImperial(self, context, KotaNumber)
         elif context.scene.DIMENSION.jednotky == 'inches':
-            textKoty = self.makeInches(context, KotaNumber)
+            textKoty = functions.makeInches(self, context, KotaNumber)
         else:
             textKoty = str(round(KotaNumber, self.pocetDesetMist))
-            textKoty = self.zaokrouhlNa(textKoty, self.pocetDesetMist)
-            textKoty = self.vymenTeckuZaCarku(textKoty)
+            textKoty = functions.zaokrouhlNa(textKoty, self.pocetDesetMist)
+            textKoty = functions.vymenTeckuZaCarku(textKoty)
             textJednotek = context.scene.DIMENSION.jednotky
             if context.scene.DIMENSION.jednotky != 'None' and context.scene.DIMENSION.showUnits == True:
                 textKoty = textKoty + ' ' + textJednotek

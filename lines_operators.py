@@ -1,10 +1,10 @@
-import bpy
-import bmesh
+import bpy # type: ignore
+import bmesh # type: ignore
 import math
 
 class MESH_OT_lines_clear(bpy.types.Operator):
     """Clear thickness"""
-    bl_idname = "mesh.linesclear"
+    bl_idname = "mesh.lines_clear"
     bl_label = "Clear Lines"
 
     @classmethod

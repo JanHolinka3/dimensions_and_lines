@@ -1,4 +1,4 @@
-import bpy
+import bpy # type: ignore
 
 class CAMERA_DIMSELECT(bpy.types.Operator):
     """
