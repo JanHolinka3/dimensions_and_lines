@@ -317,11 +317,9 @@ class MESH_OT_remake_dimension(bpy.types.Operator):
         bpy.data.curves.remove(curveTmp)
 
         #call na tvorbu pro vsechny spolecnej... setup UI
-        #bpy.ops.mesh.dimensiontwovert('INVOKE_DEFAULT', True, boolFromModal = True, bod1 = self.bod1, bod2 = self.bod2, boolFirstRun = True)
-
         #context.scene.DIMENSION.ignoreUndo = False
 
-        bpy.ops.mesh.dimensiontwovert(True, boolFromModal = True, boolRemakeOP = True, bod1 = self.bod1, bod2 = self.bod2, boolFirstRun = True, odsazeniHlavni = self.odsazeniHlavni, odsazeniZakladna = self.odsazeniZakladna, delkaSikmeCar = self.delkaSikmeCar,
+        bpy.ops.mesh.dimension_two_vert(True, boolFromModal = True, boolRemakeOP = True, bod1 = self.bod1, bod2 = self.bod2, boolFirstRun = True, odsazeniHlavni = self.odsazeniHlavni, odsazeniZakladna = self.odsazeniZakladna, delkaSikmeCar = self.delkaSikmeCar,
                                    tloustka = self.tloustka, presahKolmice = self.presahKolmice, protazeni = self.protazeni, rotace = self.rotace, textSize = self.textSize, pocetDesetMist = self.pocetDesetMist, textOffset = self.textOffset,
                                    textOffsetHor = self.textOffsetHor, textRotace = self.textRotace, distanceScale = self.distanceScale, otocit = False)
 
