@@ -630,19 +630,25 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
 
             if self.currentState == 1 or self.currentState == 2:
                 self.currentState = 0
-                bpy.ops.object.select_all(action='DESELECT')
+                #bpy.ops.object.select_all(action='DESELECT')
+                for obj in context.scene.objects:
+                    obj.select_set(False)
                 self.listKotaText[0].select_set(True)
                 #activ je mesh a jeste mazeme mesh z activ, empty a text
                 meshTmp = self.listKotaText[0].data
                 #self.ObjektKoty.select_set(True) je selected v teto fazi
-                bpy.ops.object.delete() 
+                #bpy.ops.object.delete() 
+                bpy.data.objects.remove(self.listKotaText[0])
                 bpy.data.meshes.remove(meshTmp)
 
                 #delete TEXT
-                bpy.ops.object.select_all(action='DESELECT')
+                #bpy.ops.object.select_all(action='DESELECT')
+                for obj in context.scene.objects:
+                    obj.select_set(False)
                 curveTmp = self.listKotaText[1].data
-                self.listKotaText[1].select_set(True)
-                bpy.ops.object.delete() 
+                #self.listKotaText[1].select_set(True)
+                #bpy.ops.object.delete() 
+                bpy.data.objects.remove(self.listKotaText[1])
                 bpy.data.curves.remove(curveTmp)
                 #delete empty
                 #self.objektFirsPoint.select_set(True)
@@ -650,9 +656,10 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
 
                 #delete raycast plane
                 if self.ObjektFaceRayCast != None:
-                    self.ObjektFaceRayCast.select_set(True)
+                    #self.ObjektFaceRayCast.select_set(True)
                     meshTmp = self.ObjektFaceRayCast.data
-                    bpy.ops.object.delete() 
+                    #bpy.ops.object.delete() 
+                    bpy.data.objects.remove(self.ObjektFaceRayCast)
                     bpy.data.meshes.remove(meshTmp)
                     ObjektFaceRayCast = None
 
@@ -669,25 +676,32 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
 
             if self.currentState == 2:
 
-                bpy.ops.object.select_all(action='DESELECT')
-                self.listKotaText[0].select_set(True)
+                #bpy.ops.object.select_all(action='DESELECT')
+                for obj in context.scene.objects:
+                    obj.select_set(False)
+                #self.listKotaText[0].select_set(True)
                 #activ je mesh a jeste mazeme mesh z activ, empty a text
                 meshTmp = self.listKotaText[0].data
                 #self.ObjektKoty.select_set(True) je selected v teto fazi
-                bpy.ops.object.delete() 
+                #bpy.ops.object.delete() 
+                bpy.data.objects.remove(self.listKotaText[0])
                 bpy.data.meshes.remove(meshTmp)
 
                 #delete TEXT
-                bpy.ops.object.select_all(action='DESELECT')
+                #bpy.ops.object.select_all(action='DESELECT')
+                for obj in context.scene.objects:
+                    obj.select_set(False)
                 curveTmp = self.listKotaText[1].data
-                self.listKotaText[1].select_set(True)
-                bpy.ops.object.delete() 
+                #self.listKotaText[1].select_set(True)
+                #bpy.ops.object.delete() 
+                bpy.data.objects.remove(self.listKotaText[1])
                 bpy.data.curves.remove(curveTmp)
 
                 #delete raycast plane
-                self.ObjektFaceRayCast.select_set(True)
+                #self.ObjektFaceRayCast.select_set(True)
                 meshTmp = self.ObjektFaceRayCast.data
-                bpy.ops.object.delete() 
+                #bpy.ops.object.delete() 
+                bpy.data.objects.remove(self.ObjektFaceRayCast)
                 bpy.data.meshes.remove(meshTmp)
                 self.ObjektFaceRayCast = None
 
