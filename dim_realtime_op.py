@@ -1,5 +1,6 @@
 import bpy #type:ignore
 import mathutils #type:ignore
+import math
 from . import dimSlope
 from . import dimSlopeNo
 from . import dimArrowOut
@@ -182,6 +183,7 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
                 if self.delkaManual != '':
                     self.delkaManual = self.delkaManual[:-1]
 
+        #continuus mode
         if (event.type == 'C') and event.value == 'RELEASE':
             if self.continueMode == False:
                 self.continueMode = True
@@ -191,6 +193,7 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
                 self.continueModeText = 'OFF'
             functions.textToDrawReDraw(self)
 
+        #middle point snap on and off
         if (event.type == 'M') and event.value == 'RELEASE':
                 self.snapReset = True
                 self.snapFinished = False
@@ -410,9 +413,6 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
             #self.binTreeInstance.vypis(self.binTreeInstance)
 
         if event.type == 'MOUSEMOVE' or self.wheelChange == True:
-            #print(self.listObjektu)
-            #print(self.listVertIndexu)
-            #print(self.listIDObjektu)
             
             if self.debug == True:
                 self.timeItStart = timer()
@@ -476,13 +476,14 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
                     self.vektorFin[0] += 0.00001
                     self.vektorFin[1] += 0.00001
                     self.vektorFin[2] += 0.00001
-                #pokud je delkaManualFloat>0, musime pomoci vektoru mezi body odsunout ten prvni od druheho na danou delku - prepsat je - to se jeste bude orientovat podle "otocit"
+                #pokud je delkaManualFloat>0, musime pomoci vektoru mezi body odsunout ten prvni od druheho na danou delku - prepsat je
                 if self.delkaManualFloat > 0:
                     vektorKotyT = functions.smerovyVektor(self.prvniBodKotyCoord, self.vektorFin)
-                    if self.otocit == False:
-                        self.vektorFin = functions.pripoctiNejOsa(self.prvniBodKotyCoord, vektorKotyT, self.delkaManualFloat)
-                    else:
-                        self.prvniBodKotyCoord = functions.pripoctiNejOsa(self.vektorFin, vektorKotyT, self.delkaManualFloat)
+                    #if self.otocit == False:
+                        #self.vektorFin = functions.pripoctiNejOsa(self.prvniBodKotyCoord, vektorKotyT, self.delkaManualFloat)
+                    #else:
+                        #self.prvniBodKotyCoord = functions.pripoctiNejOsa(self.vektorFin, vektorKotyT, self.delkaManualFloat)
+                    self.vektorFin = functions.pripoctiNejOsa(self.prvniBodKotyCoord, vektorKotyT, self.delkaManualFloat)
 
                 if self.otocit == False:
                     #self.vytvorKotu1([self.prvniBodKotyCoord, self.vektorFin])
@@ -864,17 +865,18 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
         if shortR[0] == 0.0 and shortR[1] == 1.0 and shortR[2] == 0.0 and shortR[3] == 0.0:
             self.lockAxisZ = True
 
+        text = "Dimensions are by default aligned to X-Y plane - invisible from sides - please use Top view, or any other arbitrary angle. If you need side or front view, just copy and rotate what you are dimensioning. I will maybe add this functionality in future."
         if shortR[0] == 0.7071067690849304 and shortR[1] == 0.7071067690849304 and shortR[2] == 0.0 and shortR[3] == 0.0:
-            self.report({'ERROR'}, "Dimensions are by default aligned to X-Y plane - invisible from sides - please use Top view, or any other arbitrary angle.")
+            self.report({'ERROR'}, text)
             return {'FINISHED'}
         if shortR[0] == 0.0 and shortR[1] == 0.0 and shortR[2] == 0.7071068286895752 and shortR[3] == 0.7071068286895752:
-            self.report({'ERROR'}, "Dimensions are by default aligned to X-Y plane - invisible from sides - please use Top view, or any other arbitrary angle.")
+            self.report({'ERROR'}, text)
             return {'FINISHED'}
         if shortR[0] == 0.5 and shortR[1] == 0.5 and shortR[2] == 0.5 and shortR[3] == 0.5:
-            self.report({'ERROR'}, "Dimensions are by default aligned to X-Y plane - invisible from sides - please use Top view, or any other arbitrary angle.")
+            self.report({'ERROR'}, text)
             return {'FINISHED'}
         if shortR[0] == 0.5 and shortR[1] == 0.5 and shortR[2] == -0.5 and shortR[3] == -0.5:
-            self.report({'ERROR'}, "Dimensions are by default aligned to X-Y plane - invisible from sides - please use Top view, or any other arbitrary angle.")
+            self.report({'ERROR'}, text)
             return {'FINISHED'}
 
         #pokud view rotation jeden z pripadu, tak lockneme axis nejak...
