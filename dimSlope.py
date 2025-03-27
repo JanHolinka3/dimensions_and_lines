@@ -17,15 +17,44 @@ def vytvorKotuSlope(self) -> bpy.types.Object:
             context.scene.cursor.rotation_euler[porad] = 0
 
         #prihodime text
-        bpy.ops.object.text_add()
-        objectTextu = context.active_object
+        #bpy.ops.object.text_add()
+
+        #test
+        # Vytvoření nového textového objektu
+        objectTextu = bpy.data.objects.new(name="text", object_data=bpy.data.curves.new(name="text", type='FONT'))
+        # Přidání objektu do aktuální kolekce
+        bpy.context.collection.objects.link(objectTextu)
+        # Nastavení aktivního a vybraného objektu
+        bpy.context.view_layer.objects.active = objectTextu
+        objectTextu.select_set(True)
+
+        #objectTextu = context.active_object
         self.ObjektTextu = objectTextu
         objectTextu.data.font = bpy.data.fonts[context.scene.DIMENSION.fontsArray]
 
-        #bpy.ops.mesh.primitive_vert_add()
-        bpy.ops.mesh.primitive_plane_add()
+        
+        #bpy.ops.mesh.primitive_plane_add()
+        #test
+        # Vytvoření nového Mesh objektu
+        objectMesh = bpy.data.meshes.new(name="dimension")
+        objectKoty = bpy.data.objects.new(name="dimension", object_data=objectMesh)
 
-        objectKoty = context.active_object
+        # Přidání do aktivní kolekce 
+        bpy.context.collection.objects.link(objectKoty)
+
+        # Vytvoření bmesh geometrie (rovina 2x2 Blender jednotky)
+        #bm = bmesh.new()
+        #bmesh.ops.create_grid(bm, x_segments=1, y_segments=1, size=2.0)
+        #bm.to_mesh(objectMesh)
+        #bm.free()  # Uvolnění paměti
+
+        # Nastavení aktivního a vybraného objektu
+        bpy.context.view_layer.objects.active = objectKoty
+        objectKoty.select_set(True)
+
+
+
+        #objectKoty = context.active_object
         self.ObjektKoty = objectKoty
         objNameBase = 'dimension.'
         objName = 'dimension'
@@ -40,12 +69,12 @@ def vytvorKotuSlope(self) -> bpy.types.Object:
                 context.active_object.name = objName
                 boolZapsano = True
 
-        objectMesh = context.active_object.data
-        bpy.ops.object.mode_set(mode='EDIT')
-        bpy.ops.mesh.delete(type='EDGE_FACE') #pridana plane ma vsechno selected
-        bpy.ops.object.mode_set(mode='OBJECT')
+        #objectMesh = context.active_object.data
+        #bpy.ops.object.mode_set(mode='EDIT')
+        #bpy.ops.mesh.delete(type='EDGE_FACE') #pridana plane ma vsechno selected
+        #bpy.ops.object.mode_set(mode='OBJECT')
 
-        objectMesh.vertices.add(46)
+        objectMesh.vertices.add(50)
 
         for vert in objectMesh.vertices:
             vert.select = False
@@ -126,7 +155,14 @@ def vytvorKotuSlope(self) -> bpy.types.Object:
 
         #context.view_layer.objects.active = objectKoty
         objectTextu.select_set(True)
-        bpy.ops.object.parent_set(type='OBJECT', xmirror=False, keep_transform=True)
+        #bpy.ops.object.parent_set(type='OBJECT', xmirror=False, keep_transform=True)
+
+        #test
+        # Nastavení rodiče
+        objectTextu.parent = objectKoty
+        # Pokud chceš zachovat transformaci jako `keep_transform=True`
+        objectTextu.matrix_parent_inverse = objectKoty.matrix_world.inverted()
+
 
         context.scene.cursor.location = zalohaCursoru
         context.scene.cursor.rotation_euler = zalohaRotaceCusoru
