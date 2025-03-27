@@ -140,7 +140,7 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
                     self.delkaManual = '0'
                 if self.delkaManual.find('.') != -1:
                     self.delkaManual = self.delkaManual + '0'
-                if self.delkaManualFloat > 0:
+                elif self.delkaManualFloat > 0:
                     self.delkaManual = self.delkaManual + '0'
             
             if (event.type == 'ONE' or event.type == 'NUMPAD_1') and event.value == 'RELEASE':
