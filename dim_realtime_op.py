@@ -1,6 +1,7 @@
 import bpy #type:ignore
 import mathutils #type:ignore
 import math
+import bmesh #type:ignore
 from . import dimSlope
 from . import dimSlopeNo
 from . import dimArrowOut
@@ -770,10 +771,27 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
                 self.druhyBodKotyCoord = self.vektorFin.copy()
 
                 #setup raycast plane
-                bpy.ops.mesh.primitive_plane_add()
-                self.ObjektFaceRayCast = context.active_object
+                #bpy.ops.mesh.primitive_plane_add()
+                #test
+                # Vytvoření nového Mesh objektu
+                ObjektFaceRayCastMesh = bpy.data.meshes.new(name="raycastface")
+                self.ObjektFaceRayCast = bpy.data.objects.new(name="dimension", object_data=ObjektFaceRayCastMesh)
+
+                # Přidání do aktivní kolekce 
+                bpy.context.collection.objects.link(self.ObjektFaceRayCast)
+
+                # Vytvoření bmesh geometrie (rovina 2x2 Blender jednotky)
+                bm = bmesh.new()
+                bmesh.ops.create_grid(bm, x_segments=1, y_segments=1, size=2.0)
+                bm.to_mesh(ObjektFaceRayCastMesh)
+                bm.free()  # Uvolnění paměti
+
+                #here maybe set ObjektFaceRayCastMesh as active?
+
+
+                #self.ObjektFaceRayCast = context.active_object
                 self.ObjektFaceRayCast.hide_set(True)
-                ObjektFaceRayCastMesh = self.ObjektFaceRayCast.data
+                #ObjektFaceRayCastMesh = self.ObjektFaceRayCast.data
                 if self.otocit == False:
                     vektorKoty = functions.smerovyVektor(self.prvniBodKotyCoord, self.druhyBodKotyCoord)
                     velikostOdsazeni = functions.vzdalenostMeziDvemaBody(self.prvniBodKotyCoord, self.druhyBodKotyCoord) * 100

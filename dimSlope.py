@@ -48,7 +48,7 @@ def vytvorKotuSlope(self) -> bpy.types.Object:
         #bm.to_mesh(objectMesh)
         #bm.free()  # Uvolnění paměti
 
-        # Nastavení aktivního a vybraného objektu
+        # Nastavení aktivního a vybraného objektu - maybe not needed
         bpy.context.view_layer.objects.active = objectKoty
         objectKoty.select_set(True)
 

@@ -195,11 +195,6 @@ class MESH_OT_dimension_two_vert(bpy.types.Operator):
         else:
             for vert in objectMesh.vertices:
                 pocetVert = pocetVert + 1
-                if counter > 1: 
-                    self.report({'ERROR'}, "Too many vertices selected")
-                    if modeSwitch == True:
-                        bpy.ops.object.mode_set(mode='EDIT')
-                    return {'CANCELLED'}
                 if vert.select:
                     globCo = maticeGlobal @ vert.co
                     counter = counter + 1
@@ -211,7 +206,12 @@ class MESH_OT_dimension_two_vert(bpy.types.Operator):
                     else:
                         verticeDva[0] = globCo[0] 
                         verticeDva[1] = globCo[1] 
-                        verticeDva[2] = globCo[2]             
+                        verticeDva[2] = globCo[2] 
+                if counter > 2: 
+                    self.report({'ERROR'}, "Too many vertices selected")
+                    if modeSwitch == True:
+                        bpy.ops.object.mode_set(mode='EDIT')
+                    return {'CANCELLED'}
             if counter < 2:    
                 self.report({'ERROR'}, "Too little vertices selected")
                 if modeSwitch == True:
@@ -250,14 +250,14 @@ class MESH_OT_dimension_two_vert(bpy.types.Operator):
 
         if modeSwitch == True:
             bpy.context.view_layer.objects.active = puvodniObjekt
-            bpy.ops.object.select_all(action='DESELECT')
+            #bpy.ops.object.select_all(action='DESELECT')
             puvodniObjekt.select_set(True)
             bpy.ops.object.mode_set(mode='EDIT')
 
         bpy.context.scene.cursor.location = puvodniPoziceCursoru
 
         if noObject == True:
-            bpy.ops.object.select_all(action='DESELECT')
+            #bpy.ops.object.select_all(action='DESELECT')
             bpy.context.view_layer.objects.active = None
 
         self.globalsSave()
