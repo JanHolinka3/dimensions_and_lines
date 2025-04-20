@@ -168,33 +168,45 @@ def osadKotuArrowOut(self, listKotaText, listVeci) -> bpy.types.Object:
     kotaBaseVert2 = functions.pripoctiY(kotaBaseVert2, self.odsazeniHlavni)
     pocetVert += 1
     objectMesh.vertices[pocetVert].co = kotaBaseVert2
+
+    #resi svislost - protoze kota je v ZX plane a taha se vzdy kladne, tedy pokud je bod 2 nad bodem 1 (podle Z souradnice), tak musi byt pricitane hodnoty zaporne - jenom u pripoctiX
+    selfProtazeniCopy = self.protazeni
+    selfTloustkaCopy = self.tloustka
+    selfDelkaSikmeCarCopy = self.delkaSikmeCar
+
+    if listVeci[0][0] == listVeci[1][0] and listVeci[0][1] == listVeci[1][1]:
+        if listVeci[0][2] > listVeci[1][2]:
+            selfProtazeniCopy = -selfProtazeniCopy
+            selfTloustkaCopy = -selfTloustkaCopy
+            selfDelkaSikmeCarCopy = -selfDelkaSikmeCarCopy
+
     #body prodlouzeni
     pocetVert += 1
-    kotaBaseVert1prodl = functions.pripoctiX(objectMesh.vertices[0].co, self.tloustka/2)  
+    kotaBaseVert1prodl = functions.pripoctiX(objectMesh.vertices[0].co, selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = kotaBaseVert1prodl
     kotaBaseVert1prodl = functions.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
     objectMesh.vertices[pocetVert].co = kotaBaseVert1prodl
     pocetVert += 1
-    kotaBaseVert1prodl = functions.pripoctiX(objectMesh.vertices[0].co, self.tloustka/2)  
+    kotaBaseVert1prodl = functions.pripoctiX(objectMesh.vertices[0].co, selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = kotaBaseVert1prodl
     kotaBaseVert1prodl = functions.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
     objectMesh.vertices[pocetVert].co = kotaBaseVert1prodl
 
     #2 kolem hlavni vpravo
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[0].co, -self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[0].co, -selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
     bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, self.tloustka/2)
     objectMesh.vertices[pocetVert].co = bodSirky1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[0].co, -self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[0].co, -selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
     bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #4 kolem hlavni vlevo
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[1].co, self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[1].co, selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
     bodSirky1 = functions.pripoctiY(objectMesh.vertices[pocetVert].co, -self.tloustka/2)
     objectMesh.vertices[pocetVert].co = bodSirky1
@@ -202,10 +214,10 @@ def osadKotuArrowOut(self, listKotaText, listVeci) -> bpy.types.Object:
     bodSirky1 = functions.pripoctiY(objectMesh.vertices[6].co, self.tloustka)
     objectMesh.vertices[pocetVert].co = bodSirky1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[7].co, -self.tloustka)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[7].co, -selfTloustkaCopy)  
     objectMesh.vertices[pocetVert].co = bodSirky1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[6].co, -self.tloustka)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[6].co, -selfTloustkaCopy)  
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #spodni vpravo - stred,vlevo,vpravo
@@ -213,10 +225,10 @@ def osadKotuArrowOut(self, listKotaText, listVeci) -> bpy.types.Object:
     kotaKolmiceSpodek1 = functions.pripoctiY(kotaBaseVert1Original, self.odsazeniZakladna)
     objectMesh.vertices[pocetVert].co = kotaKolmiceSpodek1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #spodni vlevo - stred,vlevo,vpravo
@@ -224,10 +236,10 @@ def osadKotuArrowOut(self, listKotaText, listVeci) -> bpy.types.Object:
     kotaKolmiceSpodek2 = functions.pripoctiY(kotaBaseVert2Original, self.odsazeniZakladna)
     objectMesh.vertices[pocetVert].co = kotaKolmiceSpodek2
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #horni vpravo - stred,vlevo,vpravo
@@ -235,10 +247,10 @@ def osadKotuArrowOut(self, listKotaText, listVeci) -> bpy.types.Object:
     kotaKolmiceVrsek1 = functions.pripoctiY(objectMesh.vertices[0].co, self.presahKolmice)
     objectMesh.vertices[pocetVert].co = kotaKolmiceVrsek1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #horni vlevo - stred,vlevo,vpravo
@@ -246,47 +258,47 @@ def osadKotuArrowOut(self, listKotaText, listVeci) -> bpy.types.Object:
     kotaKolmiceVrsek2 = functions.pripoctiY(objectMesh.vertices[1].co, self.presahKolmice)
     objectMesh.vertices[pocetVert].co = kotaKolmiceVrsek2
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 1].co, -selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
     pocetVert += 1
-    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, self.tloustka/2)  
+    bodSirky1 = functions.pripoctiX(objectMesh.vertices[pocetVert - 2].co, selfTloustkaCopy/2)  
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #sikmina vpravo horni 
     pocetVert +=1
     bodSirky1=functions.pripoctiY(objectMesh.vertices[3].co,math.sin(15/(180/math.pi))*(self.delkaSikmeCar/2 * zvetseniZnaku))
     objectMesh.vertices[pocetVert].co = bodSirky1
-    bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,math.cos(15/(180/math.pi))*(self.delkaSikmeCar/2 * zvetseniZnaku))
+    bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,math.cos(15/(180/math.pi))*(selfDelkaSikmeCarCopy/2 * zvetseniZnaku))
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #sikmina vpravo spodni
     pocetVert +=1
     bodSirky1=functions.pripoctiY(objectMesh.vertices[2].co,-math.sin(15/(180/math.pi))*(self.delkaSikmeCar/2 * zvetseniZnaku))
     objectMesh.vertices[pocetVert].co = bodSirky1
-    bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,math.cos(15/(180/math.pi))*(self.delkaSikmeCar/2 * zvetseniZnaku))
+    bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,math.cos(15/(180/math.pi))*(selfDelkaSikmeCarCopy/2 * zvetseniZnaku))
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #sikmina vpravo stred
     pocetVert +=1
-    bodSirky1=functions.pripoctiX(objectMesh.vertices[0].co,((self.tloustka/2)+ (math.cos(15/(180/math.pi))*(self.delkaSikmeCar/2*zvetseniZnaku))))
+    bodSirky1=functions.pripoctiX(objectMesh.vertices[0].co,((selfTloustkaCopy/2)+ (math.cos(15/(180/math.pi))*(selfDelkaSikmeCarCopy/2*zvetseniZnaku))))
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #sikmina vlevo horni 
     pocetVert +=1
     bodSirky1=functions.pripoctiY(objectMesh.vertices[8].co,math.sin(15/(180/math.pi))*(self.delkaSikmeCar/2 * zvetseniZnaku))
     objectMesh.vertices[pocetVert].co = bodSirky1
-    bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,-math.cos(15/(180/math.pi))*(self.delkaSikmeCar/2 * zvetseniZnaku))
+    bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,-math.cos(15/(180/math.pi))*(selfDelkaSikmeCarCopy/2 * zvetseniZnaku))
     objectMesh.vertices[pocetVert].co = bodSirky1
     #sikmina vlevo spodni 
     pocetVert +=1
     bodSirky1=functions.pripoctiY(objectMesh.vertices[9].co,-math.sin(15/(180/math.pi))*(self.delkaSikmeCar/2 * zvetseniZnaku))
     objectMesh.vertices[pocetVert].co = bodSirky1
-    bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,-math.cos(15/(180/math.pi))*(self.delkaSikmeCar/2 * zvetseniZnaku))
+    bodSirky1=functions.pripoctiX(objectMesh.vertices[pocetVert].co,-math.cos(15/(180/math.pi))*(selfDelkaSikmeCarCopy/2 * zvetseniZnaku))
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #sikmina vlevo stred
     pocetVert +=1
-    bodSirky1=functions.pripoctiX(objectMesh.vertices[1].co,-((self.tloustka/2)+ (math.cos(15/(180/math.pi))*(self.delkaSikmeCar/2*zvetseniZnaku))))
+    bodSirky1=functions.pripoctiX(objectMesh.vertices[1].co,-((selfTloustkaCopy/2)+ (math.cos(15/(180/math.pi))*(selfDelkaSikmeCarCopy/2*zvetseniZnaku))))
     objectMesh.vertices[pocetVert].co = bodSirky1
 
     #orig snap points

@@ -223,6 +223,8 @@ class MESH_OT_realtime_dimension(bpy.types.Operator): #opravit cursor movement
                 self.delkaManualFloat = float(self.delkaManual) * 0.0254
             if context.scene.DIMENSION.jednotky == 'inches':
                 self.delkaManualFloat = float(self.delkaManual) * 0.0254
+            if self.currentState == 2:
+                self.delkaManualFloat = float(self.delkaManual)
         else: 
             self.delkaManualFloat = 0.0
 
