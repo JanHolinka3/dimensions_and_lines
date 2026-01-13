@@ -319,25 +319,19 @@ class MESH_OT_dimension_two_vert(bpy.types.Operator):
         self.textSize = 0.0036*context.scene.DIMENSION.scale
         if context.scene.DIMENSION.jednotky == 'mm':
             self.distanceScale = 1000
-            self.pocetDesetMist = 0
         if context.scene.DIMENSION.jednotky == 'cm':
             self.distanceScale = 100
-            self.pocetDesetMist = 2
         if context.scene.DIMENSION.jednotky == 'dm':
             self.distanceScale = 10
-            self.pocetDesetMist = 1
         if context.scene.DIMENSION.jednotky == 'm' or context.scene.DIMENSION.jednotky == 'None':
             self.distanceScale = 1
-            self.pocetDesetMist = 3
         if context.scene.DIMENSION.jednotky == 'km':
             self.distanceScale = 0.001
-            self.pocetDesetMist = 4
         if context.scene.DIMENSION.jednotky == 'ft in':
             self.distanceScale = 1
-            self.pocetDesetMist = 0
         if context.scene.DIMENSION.jednotky == 'inches':
             self.distanceScale = 1
-            self.pocetDesetMist = 0
+        self.pocetDesetMist = context.scene.DIMENSION.decPlaces
         #distanceScale
 
     def setupUnitsScale(self,context):

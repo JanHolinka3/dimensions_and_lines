@@ -65,6 +65,9 @@ class VIEW3D_PT_dimensions(bpy.types.Panel):
         row = layout.row()
         row.prop(context.scene.DIMENSION, "jednotky", text = "Units:")
         row.prop(context.scene.DIMENSION, "showUnits", text = "Show")
+        
+        row = layout.row()
+        row.prop(context.scene.DIMENSION, "decPlaces", text = "Dec. places:")
 
         col = layout.column(align=True)
         col.prop(context.scene.DIMENSION, "fontsArray", text = "Font:")
@@ -254,25 +257,19 @@ class VIEW3D_PT_dimensions(bpy.types.Panel):
         self.textRotace = 0
         if context.scene.DIMENSION.jednotky == 'mm':
             self.distanceScale = 1000
-            self.pocetDesetMist = 0
         if context.scene.DIMENSION.jednotky == 'cm':
             self.distanceScale = 100
-            self.pocetDesetMist = 2
         if context.scene.DIMENSION.jednotky == 'dm':
             self.distanceScale = 10
-            self.pocetDesetMist = 1
         if context.scene.DIMENSION.jednotky == 'm' or context.scene.DIMENSION.jednotky == 'None':
             self.distanceScale = 1
-            self.pocetDesetMist = 3
         if context.scene.DIMENSION.jednotky == 'km':
             self.distanceScale = 0.001
-            self.pocetDesetMist = 4
         if context.scene.DIMENSION.jednotky == 'ft in':
             self.distanceScale = 1
-            self.pocetDesetMist = 0
         if context.scene.DIMENSION.jednotky == 'inches':
             self.distanceScale = 1
-            self.pocetDesetMist = 0
+        self.pocetDesetMist = context.scene.DIMENSION.decPlaces
         #distanceScale
 
     def setupUnitsScale(self,context):
@@ -650,6 +647,7 @@ class DIMENSION_GLOBALS(bpy.types.PropertyGroup):
     widePaper: bpy.props.BoolProperty(name="widePaper",default = True) #type: ignore
     scale: bpy.props.IntProperty(name = "scale", default = 100, min = 1, max = 10000) #type: ignore
     jednotky: bpy.props.EnumProperty(items = unitsArray, description= "Units") #type: ignore
+    decPlaces: bpy.props.IntProperty(name = "decPlaces", default = 3, min = 0, max = 8, description = "Decimal places") #type: ignore
     cameraOb: bpy.props.StringProperty(name = 'cameraObject', default = "None", ) #type: ignore
     dimType: bpy.props.EnumProperty(items = dimTypeArray, description= "Dimension types") #type: ignore
     ignoreUndo: bpy.props.BoolProperty(name="ignoreUndo",default = True) #type: ignore
